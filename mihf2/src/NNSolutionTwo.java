@@ -63,11 +63,22 @@ public class NNSolutionTwo {
         }
         testN=Integer.parseInt(input.get(rowCount++).get(0));
 
-        List xList=new ArrayList<Double>();
-        xList.add(1.0);
-        xList.add(0.0);
-        for(Neuron2 n : Lis.get(Lis.size()-1))
-            System.out.println(n.y(xList));
+        List<List<Double>> xLists=new ArrayList<>();
+        List<Double> xList=new ArrayList<Double>();
+        for(int i=0;i<testN;i++)
+        {
+            xList.clear();
+            List<String> x=input.get(rowCount++);
+            for(String s : x) xList.add(Double.parseDouble(s));
+            xLists.add(xList);
+        }
+        /*xList.add(1.0);
+        xList.add(0.0);*/
+
+        System.out.println(testN);
+        for(List<Double> xL:xLists)
+            for(Neuron2 n : Lis.get(Lis.size()-1))
+                System.out.println(n.y(xL));
 
 
         /*for(int i=0;i<Lis.size();i++)
