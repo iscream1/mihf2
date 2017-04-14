@@ -43,7 +43,7 @@ public class NNSolutionTwo {
         for(int i=0;i<input.get(0).size();i++)
         {
             List x=new ArrayList<Neuron2>();
-            for(int j=0;j<Integer.parseInt(input.get(0).get(i));j++) x.add(new Neuron2());
+            for(int j=0;j<Integer.parseInt(input.get(0).get(i));j++) x.add(new Neuron2(i, j));
             Lis.add(x);
         }
 
@@ -61,6 +61,14 @@ public class NNSolutionTwo {
                 rowCount++;
             }
         }
+        testN=Integer.parseInt(input.get(rowCount++).get(0));
+
+        List xList=new ArrayList<Double>();
+        xList.add(1.0);
+        xList.add(0.0);
+        for(Neuron2 n : Lis.get(Lis.size()-1))
+            System.out.println(n.y(xList));
+
 
         /*for(int i=0;i<Lis.size();i++)
         {
@@ -70,7 +78,7 @@ public class NNSolutionTwo {
             else System.out.print("\n");
         }
 
-        for(int i=0;i<Lis.size();i++)
+        for(int i=1;i<Lis.size();i++)
         {
             List<Neuron2> l=Lis.get(i);
             for(Neuron2 n : l) System.out.println(n.toString());
@@ -81,17 +89,10 @@ public class NNSolutionTwo {
     {
         public List<Double> w=new ArrayList<>();
         public double b;
+        public int level;
+        public int idx;
 
-        public Neuron2(){}
-
-        public Neuron2(List<String> inp)
-        {
-            b=Double.parseDouble(inp.remove(inp.size()));
-            for(String x : inp)
-            {
-                w.add(Double.parseDouble(x));
-            }
-        }
+        public Neuron2(int level, int idx){this.level=level; this.idx=idx;}
 
         public String toString()
         {
@@ -99,7 +100,52 @@ public class NNSolutionTwo {
             for(int i=0;i<w.size();i++) {
                 ret+=w.get(i)+",";
             }
-            ret+=b;
+            ret+=b+" "+level;
+            return ret;
+        }
+
+        public double w(int j)
+        {
+            double ret=w.get(j);
+            return ret;
+        }
+
+        public double x(List<Double> xList)
+        {
+            double ret;
+            if(level==0) ret=xList.get(idx);
+            else ret=Lis.get(level-1).get(idx).y(xList);
+            //System.out.println(ret);
+            return ret;
+        }
+
+        public double s(List<Double> xList)
+        {
+            double ret=b;
+            //System.out.println(level);
+            for(int j=1;j<Lis.get(level-1).size();j++)
+            {
+                ret+=w(j)*x(xList);
+                //System.out.println(ret);
+            }
+            //System.out.println(ret);
+            return ret;
+        }
+
+        public double f(double x)
+        {
+            double ret;
+            if(level==Lis.size()-1) ret=x;
+            //System.out.println((x>0)?x:0);
+            ret=(x>0)?x:0;
+            return ret;
+        }
+
+        public double y(List<Double> xList)
+        {
+            double ret;
+            if(level==0) ret=xList.get(idx);
+            else ret=f(s(xList));
             return ret;
         }
     }
