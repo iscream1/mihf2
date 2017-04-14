@@ -49,19 +49,20 @@ public class NNSolutionTwo {
 
         int rowCount=1;
         int testN;
-        for (List<Neuron2> l:Lis)
+        for (int i=1;i<Lis.size();i++)
         {
+            List<Neuron2> l=Lis.get(i);
             for(Neuron2 n:l)
             {
                 //n.w.add(Double.parseDouble(input.get(rowCount)));
                 List<String> inplist=input.get(rowCount);
-                for(int i=0;i<inplist.size()-1;i++) n.w.add(Double.parseDouble(inplist.get(i)));
+                for(int j=0;j<inplist.size()-1;j++) n.w.add(Double.parseDouble(inplist.get(j)));
                 n.b=(Double.parseDouble(inplist.get(inplist.size()-1)));
                 rowCount++;
             }
         }
 
-        for(int i=0;i<Lis.size();i++)
+        /*for(int i=0;i<Lis.size();i++)
         {
             List<Neuron2> l=Lis.get(i);
             System.out.print(l.size());
@@ -73,33 +74,33 @@ public class NNSolutionTwo {
         {
             List<Neuron2> l=Lis.get(i);
             for(Neuron2 n : l) System.out.println(n.toString());
-        }
+        }*/
     }
-}
 
-class Neuron2
-{
-    public List<Double> w=new ArrayList<>();
-    public double b;
-
-    public Neuron2(){}
-
-    public Neuron2(List<String> inp)
+    static class Neuron2
     {
-        b=Double.parseDouble(inp.remove(inp.size()));
-        for(String x : inp)
+        public List<Double> w=new ArrayList<>();
+        public double b;
+
+        public Neuron2(){}
+
+        public Neuron2(List<String> inp)
         {
-            w.add(Double.parseDouble(x));
+            b=Double.parseDouble(inp.remove(inp.size()));
+            for(String x : inp)
+            {
+                w.add(Double.parseDouble(x));
+            }
         }
-    }
 
-    public String toString()
-    {
-        String ret="";
-        for(int i=0;i<w.size();i++) {
-            ret+=w.get(i)+",";
+        public String toString()
+        {
+            String ret="";
+            for(int i=0;i<w.size();i++) {
+                ret+=w.get(i)+",";
+            }
+            ret+=b;
+            return ret;
         }
-        ret+=b;
-        return ret;
     }
 }
