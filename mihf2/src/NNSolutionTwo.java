@@ -67,7 +67,7 @@ public class NNSolutionTwo {
         List<Double> xList=new ArrayList<Double>();
         for(int i=0;i<testN;i++)
         {
-            xList.clear();
+            xList=new ArrayList<>();
             List<String> x=input.get(rowCount++);
             for(String s : x) xList.add(Double.parseDouble(s));
             xLists.add(xList);
@@ -77,8 +77,16 @@ public class NNSolutionTwo {
 
         System.out.println(testN);
         for(List<Double> xL:xLists)
-            for(Neuron2 n : Lis.get(Lis.size()-1))
-                System.out.println(n.y(xL));
+        {
+            List<Neuron2> nList=Lis.get(Lis.size()-1);
+            for(int i=0;i<nList.size();i++)
+            {
+                Neuron2 n=nList.get(i);
+                System.out.print(n.y(xL));
+                if(i==nList.size()-1) System.out.print("\n");
+                else System.out.print(",");
+            }
+        }
 
 
         /*for(int i=0;i<Lis.size();i++)
@@ -121,11 +129,11 @@ public class NNSolutionTwo {
             return ret;
         }
 
-        public double x(List<Double> xList)
+        public double x(List<Double> xList, int j)
         {
             double ret;
             if(level==0) ret=xList.get(idx);
-            else ret=Lis.get(level-1).get(idx).y(xList);
+            else ret=Lis.get(level-1).get(j).y(xList);
             //System.out.println(ret);
             return ret;
         }
@@ -134,9 +142,9 @@ public class NNSolutionTwo {
         {
             double ret=b;
             //System.out.println(level);
-            for(int j=1;j<Lis.get(level-1).size();j++)
+            for(int j=0;j<Lis.get(level-1).size();j++)
             {
-                ret+=w(j)*x(xList);
+                ret+=w(j)*x(xList, j);
                 //System.out.println(ret);
             }
             //System.out.println(ret);
@@ -148,7 +156,7 @@ public class NNSolutionTwo {
             double ret;
             if(level==Lis.size()-1) ret=x;
             //System.out.println((x>0)?x:0);
-            ret=(x>0)?x:0;
+            else ret=(x>0)?x:0;
             return ret;
         }
 
